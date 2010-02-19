@@ -1,0 +1,581 @@
+\documentclass[a4paper,10pt,oneside]{report}
+
+\usepackage{fullpage}
+\usepackage{fancyhdr}		% needed to get the image in the header
+\usepackage{graphicx}			% needed for the header image
+
+\title {{\huge Team Contest Reference}}
+\author {
+	{\LARGE "Ambitious but rubbish"} \and
+	Pieter-Jan Kindermans, Killian De Smedt, Thomas Meire
+}
+\date {October, 2009}
+
+\begin{document}
+
+% show title, author and data
+\maketitle
+
+\tableofcontents
+
+\chapter{Doel}
+Geniaal zijn!
+\chapter{C++ General}
+\section{Limits}
+\begin{center}
+\begin{tabular}{|l l l|}
+\hline
+INT MIN 	& –2,147,483,648 	& $-2*10^{9}$\\	
+\hline
+INT MAX 	& +2,147,483,647 	& $2*10^{9}$\\
+\hline
+UINT MAX 	& +4,294,967,295  & $4*10^{9}$\\
+\hline
+LLONG MIN 	& –9,223,372,036,854,775,808 & $-9*10^{18}$\\
+\hline
+LLONG MAX 	& +9,223,372,036,854,775,807 & $9*10^{18}$\\
+\hline
+ULLONG MAX 	&+18,446,744,073,709,551,615 & $18*10^{18}$\\	
+\hline
+\end{tabular} 
+\end{center}
+\section{Template}
+\begin{verbatim}
+#include <algorithm>
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
+#include <cmath>
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <string>
+#include <set>
+#include <map>
+#include <list>
+#include <queue>
+#include <vector>
+using namespace std;
+
+#define REP(i,n) for(int i=0;i<(n);i++)
+#define FOR(i,a,b) for(int i=(a);i<(b);++i)
+#define FORD(i,a,b) for(int i=(a);i>=(b);--i)
+#define FOREACH(it,c) for(typeof((c).begin()) it=(c).begin();it!=(c).end();++it)
+#define LET(i,c) typeof(c) i = (c)
+#define MP make_pair
+#define PB push_back
+#define SORT(x) sort((x).begin(),(x).end())
+#define ALL(x) (x).begin(),(x).end()
+#define UNIQUE(x) remove(unique((x).begin(),(x).end()),(x).end())
+#define CLEAR(x,v) memset((x),(v),sizeof((x)))
+#define FORS(i,x) for(int i=0;i<(int)(x).size();i++)
+#define X first
+#define Y second
+typedef long long ent;
+typedef pair<int,int> ii;
+
+//Debug info
+#define DEBUG !true
+
+//=========================================END OF HEADER=========================================================
+class Class{ //edge voor grafen
+        public:
+               bool operator <(const Class& e) const{return1;};
+};
+
+void solve(){
+	
+}
+
+int main(){
+        int cases;
+        scanf("%d",&cases);
+        while(cases--)
+        { 
+                solve();
+
+        }
+} 
+\end{verbatim}
+\chapter{Wiskunde}
+\section{Prime}
+\subsection{Eras..}
+\begin{verbatim}
+    int maxpriem=100;
+    bool priemen[maxpriem + 1];
+    REP(i,maxpriem+1) priemen[i] = 1;                  /* Alle getallen op 1 instellen */
+    priemen[0]= priemen[1]= 0;         /* 0 en 1 uitsluiten. */
+    for(int i = 2; i * i < maxpriem; i++)
+      if(priemen[i] == 1)              /* Als een getal een priem is: */
+        for(int j = i * i; j <= maxpriem; j += i) 
+          priemen[j] = 0;              /* Streep dan alle veelvouden weg. (zie opm bovenaan) */
+\end{verbatim}
+\subsection{Atkins}
+\begin{verbatim}
+ #define ISQRT(x) (int)std::sqrt((double)(x))
+
+std::vector atkinsSieve(int limit)
+{
+    int* is_prime = new int[limit+1];
+    memset(is_prime, 0, sizeof(int)*limit);
+    is_prime[2] = is_prime[3] = is_prime[5] = 1;
+
+// put in candidate primes:
+// integers which have an odd number of
+// representations by certain quadratic forms
+    for (int i = 0; i < ISQRT(limit); i++)
+        for (int j = 0; j < ISQRT(limit); j++)
+        {
+            int n = 4*i*i+j*j;
+            if (n <= limit && (n%12==1 || n%12 == 5))
+            {
+                is_prime[n] ^= 1;
+            }
+            n -= i*i;
+            if ( n <= limit && n%12==7)
+            {
+                is_prime[n] ^= 1;
+            }
+            if (i > j)
+            {
+                n -= 2*j*j;
+                if ( n <= limit && n%12==11)
+                {
+                    is_prime[n] ^= 1;
+                }
+            }
+        }
+    std::vector<int> result;
+    result.push_back(2);
+    result.push_back(2);
+    for (int i = 5; i < ISQRT(limit); i++)
+    {
+        if (is_prime[i])
+        {
+            result.push_back(i);
+            int n = i*i;
+            while (n<=limit)
+            {
+                is_prime[n] = 0;
+                n+=n;
+            }
+        }
+    }
+    return result;
+}
+\end{verbatim}
+
+\paragraph{Prime testing}
+\begin{verbatim}
+int is_prime(int n) {
+  if (n == 1) return 0; // 1 is NOT a prime
+  if (n == 2) return 1; // 2 is a prime
+  if (n%2 == 0) return 0; // NO prime is EVEN, except 2
+  for (int i=3; i*i<=n; i+=2) // start from 3, jump 2 numbers
+    if (n%i == 0) // no need to check even numbers
+      return 0;
+  return 1;
+}
+\end{verbatim}
+
+\paragraph{GCD}
+\begin{verbatim}
+long long gcd(long long a, long long b) 
+{
+  if(b > a)
+  {
+    long long t = a;
+    a = b;
+    b = t;
+  }
+  return ( b == (long long)0 ? a : gcd(b, a % b) ); 
+}
+\end{verbatim}
+
+\section{Meetkunde}
+\subsection{Convex hull}
+Stel X een set van n punten. De convex hull van X bestaat uit h punten.
+Andere algoritmen: jarvis' march/giftwrapping, monotone chain, sweep-line, ...
+\paragraph {Graham scan $O(n log n)$}
+\begin{verbatim}
+
+#define PI 3.14159265
+
+typedef struct _Point Point;
+struct _Point {
+    double x;     /* coordinates */
+    double y;
+
+    Point *next;  /* next & previous node */
+    Point *prev;
+
+    double angle;
+};
+
+double angle (Point* a, Point* b) {
+    double dx = b->x - a->x;
+    double dy = b->y - a->y;
+	
+    if (dx == 0 && dy == 0) { return 0; }
+
+    double angle = atan(dy / dx) * (180.0 / PI);
+
+    // take the quadrants into account
+    if ((dx >= 0 && dy >= 0) || (dx >= 0 && dy < 0)) {
+        angle += 90;
+    } else if ((dx < 0 && dy > 0) || (dx < 0 && dy <= 0)) {
+        angle += 270;
+    }
+    return angle;
+}
+
+Point* add_point (Point* first, Point* p) {
+    if (first == NULL) {
+        p->next = p;
+        p->prev = p;
+        return p;
+    }
+
+    current = first->next;
+    while (current != first && current->angle < p->angle) {
+        current = current->next;
+    }
+    p->next = current;
+    p->prev = current->prev;
+    p->next->prev = p;
+    p->prev->next = p;
+    return first;
+}
+
+// this function is the entry point!
+void graham_scan_init (int vertices) {
+    Point[] points = new Point[vertices];
+    Point* first = NULL;
+    int i, smallest;
+
+    for (i = 0; i < points; i++) {
+        scanf("%d", &(points[i].x));
+        scanf("%d", &(points[i].y));
+        if (points[i].y < points[smallest].y) { smallest = i; }
+    }
+
+    for (i = 0; i < points; i++) {
+        points[i].angle = angle(&(points[smallest]), &(points[i]));
+        first = add_point(first, &(points[i]));
+    }
+    // make the list fully circular
+    first->prev = current;
+    current->next = first;
+	
+	graham_scan(first, first->next);
+}
+
+void is_convex_point (Point* p) {
+    double cwangle = angle(p, p->prev);
+    double ccwangle = angle(p, p->next);
+
+    if (cwangle > ccwangle) {
+        return ((cwangle - ccwangle) <= 180)
+    } else {
+        return ((ccwangle - cwangle) > 180);
+    }
+}
+
+void graham_scan (Point* start, Point* p) {
+    // back at the start, so stop
+    if (start == p) { return; }
+
+    if (!is_convex_point(p)) {
+        // p is concave, eliminate it from the perimeter
+        p->prev->next = p->next;
+        p->next->prev = p->prev;
+        graham_scan(start, p);    // check convexity of previous point
+    } else {
+        // p is convex, so just take the next point
+        graham_scan(start, p->next);
+    }
+}
+\end{verbatim}
+
+\subsection{Afstand punt-lijn}
+Afstand van het punt $P=(x_0, y_0, z_0)$ tot de rechte $R=A*x+B*y+C=0$:
+\begin{equation}
+	d = \frac{|A * x_0 + B * y_0 + C|}{\sqrt{A^{2} + B^{2}}}
+\end{equation}
+
+\subsection{Afstand punt-vlak}
+Afstand van het punt $P=(x_0, y_0, z_0)$ tot het vlak $V=A*x+B*y+C*z+D=0$:
+\begin{equation}
+	d = \frac{|A * x_0 + B * y_0 + C * z_0 + D|}{\sqrt{A^{2} + B^{2} + C^{2}}}
+\end{equation}
+
+%==========================================================================================
+%==========================================================================================
+\chapter{Dynamic Programming}
+\section{Longest increasing subsequence}
+Zoek uit een rij van gehele getallen de sequentie die het langste stijgt. Voorbeeld volgt.
+\begin{verbatim}
+ L = 0
+ M[0] = 0
+ for i = 1, 2, ... n:
+    binary search for the largest j ≤ L such that X[M[j]] < X[i] (or set j = 0 if no such value exists)
+    P[i] = M[j]
+    if j == L or X[i] < X[M[j+1]]:
+       M[j+1] = i
+       L = max(L, j+1)
+\end{verbatim}
+Voorbeeld hoe het werkt. Door telkens bij toevoegen aan tabel vorige bij te houden en dan het laatste element uit de tabel te nemen en terug te keren is het mogelijk de sequence op te bouwen!
+\begin{verbatim}
+  0 1  2   3  4  5  6  7  8
+a  -7, 10, 9, 2, 3, 8, 8, 1
+
+A -i i, i, i, i, i, i, i, i (iteration number, i = infinity)
+A -i -7, i, i, i, i, i, i, i (1)
+A -i -7,10, i, i, i, i, i, i (2)
+A -i -7, 9, i, i, i, i, i, i (3)
+A -i -7, 2, i, i, i, i, i, i (4)
+A -i -7, 2, 3, i, i, i, i, i (5)
+A -i -7, 2, 3, 8, i, i, i, i (6)
+A -i -7, 2, 3, 8, i, i, i, i (7)
+A -i -7, 1, 3, 8, i, i, i, i (8)
+\end{verbatim}
+
+\section{Longest common subsequence}
+Analoog aan smith waterman/inserties deleties. Bij smith waterman moet initialisatie van de eerste rij en kolom anders!
+
+Pseudocode geeft de lengte van de subsequence.
+Door terug te keren kan deze eruit gehaald worden! (Gebruik pairs in array, eerste waarde is score, 2e waarde is vorige (x,y coordinaat nog een paar :)))
+\begin{verbatim}
+function  LCSLength(X[1..m], Y[1..n])
+    C = array(0..m, 0..n)
+    for i := 0..m
+       C[i,0] = 0
+    for j := 0..n
+       C[0,j] = 0
+    for i := 1..m
+        for j := 1..n
+            if X[i] = Y[j]
+                C[i,j] := C[i-1,j-1] + 1
+            else:
+                C[i,j] := max(C[i,j-1], C[i-1,j])
+    return C[m,n]
+\end{verbatim}
+
+\section{Viterbi}
+Analoog aan smith-waterman/DTW. Kijk vanuit welke toestanden je in de volgende kunt raken. En neem de beste: (kans vorige toestand*transitiekans) en vermenigvuldig met de emissiekans! Trekt zeer goed op LCS
+Dus REP(message)REP(Toestanden)REP(Vorige toestanden) vul tabel in.
+\begin{verbatim}
+  //Init
+  REP(i,n) vit[i][0].Y = emissionProb[State i];
+  
+  //Solve
+  FOR(i,1,message length)
+  {
+    REP(j,n)//Loop over every state
+    {
+      vit[pos i toestand j] = log(0);
+      vit[pos i toestand j].vorige toestand = -1; //Set index best state to get here
+      //Alle mogelijke vorigen berekenen
+      REP(k,n)
+      {
+        double temp = vit[pos i toestand k]+transitionProb[k->j];
+        if(vit[pos i toestand j])//Update best
+        {
+          vit[pos i toestand j] = temp;
+          vit[pos i toestand j].vorige toestand = k;
+        }
+      }
+      //Kans dat het dit is alswe het andere ontvangen in rekening brengen
+      vit[pos i toestand j] += emissionProb[j]; (emissieprob is altijd gelijk dus maar 1 maal doen)
+    }
+  }
+  //Take best and follow path backwards
+\end{verbatim}
+%==========================================================================================
+%==========================================================================================
+\chapter{Grafen}
+
+\section {Prim's Algorithm}
+Prim's Algorithm is a greedy algorithm to find a {\bf minimum spanning tree}
+for a connected weighted graph.
+
+\begin{verbatim}
+G = given, connected, weighted graph
+H = empty graph
+Choose a random starting vertex x in G
+Connect x to H
+while intersect(G,H) is nonempty:
+  - Choose the edge e(u,v) with the lowest weight, with u in H and v in G and v not in H.
+  - Remove v from G and add v to H.
+H contains the minimum spanning tree.
+\end{verbatim}
+
+\section{Kruskal}
+Zoek de minimum spanning tree van een gewogen graaf
+\begin{verbatim}
+F = set of all vertices, where each vertex is a tree
+S = set of all edges in the graph
+
+while S is nonempty
+    edge E = S.getEdgeWithMinimumWeight()
+    if (E connects 2 trees in F) {
+        add E to F, combining the two trees into single tree
+    } else {
+        discard E
+    }
+    S.remove(E)
+\end{verbatim}
+\section{Dijkstra}
+Vind het kortste pad tussen twee nodes.
+\begin{verbatim}
+function Dijkstra(Graph, source):
+     for each vertex v in Graph:           // Initializations
+         distance[v] := infinity           // Unknown distance function from source to v
+         previous[v] := undefined          // Previous node in optimal path from source
+     distance[source] := 0                 // Distance from source to source
+     Q := the set of all nodes in Graph
+
+     // All nodes in the graph are unoptimized - thus are in Q
+     while Q is not empty:                 // The main loop
+         u := vertex in Q with smallest distance[]
+         if distance[u] = infinity:
+             break                         // all remaining vertices are inaccessible from source
+         remove u from Q
+         for each neighbor v of u:         // where v has not yet been removed from Q.
+             alt := distance[u] + distance_between(u, v) 
+             if alt < distance[v]:         // Relax (u,v,a)
+                 distance[v] := alt
+                 previous[v] := u
+     return distance[]
+\end{verbatim}
+
+\section{Bellman-Ford Algoritme}
+Heeft hetzelfde resultaat als dijkstra maar werkt ook met negatieve edges!
+\begin{verbatim}
+procedure BellmanFord(list vertices, list edges, vertex source)
+   // This implementation takes in a graph, represented as lists of vertices
+   // and edges, and modifies the vertices so that their distance and
+   // predecessor attributes store the shortest paths.
+
+   // Step 1: Initialize graph
+   for each vertex v in vertices:
+       if v is source then
+           v.distance := 0
+       else
+           v.distance := infinity
+       v.predecessor := null
+   
+   // Step 2: relax edges repeatedly
+   for i from 1 to size(vertices)-1:       
+       for each edge uv in edges: // uv is the edge from u to v
+           u := uv.source
+           v := uv.destination             
+           if u.distance + uv.weight < v.distance:
+               v.distance := u.distance + uv.weight
+               v.predecessor := u
+
+   // Step 3: check for negative-weight cycles
+   for each edge uv in edges:
+       u := uv.source
+       v := uv.destination
+       if u.distance + uv.weight < v.distance:
+           error "Graph contains a negative-weight cycle"
+\end{verbatim}
+
+\section{Max-Flow}
+= Ford-Fulkerson Algoritme
+\begin{verbatim}
+Inputs: Graph G with flow capacity c, a source node s, and a sink node t
+Output A flow f from s to t which is a maximum
+
+f(u,v) = 0 for all edges (u,v)
+While there is a path p from s to t in G_f, such that c_f(u,v) > 0 for all edges (u,v) in p:
+    Find c_f(p) = min{c_f(u,v) | (u,v) in p}
+    For each edge (u,v) in p:
+        f(u,v) = f(u,v) + c_f(p) (Send flow along the path)
+        f(v,u) = f(v,u) - c_f(p) (The flow might be "returned" later)
+\end{verbatim}
+
+\section{Floyd-warshall}
+All pairs shortest path.
+\begin{verbatim}
+int path[n][n];
+procedure FloydWarshall ()
+    REP(k,n) REP(i,n) REP(j,n) // k EERST!!!
+	    path[i][j] = min ( path[i][j], path[i][k]+path[k][j] );
+\end{verbatim}
+\section{KD Trees}
+\paragraph{Nearest Neighbour search}
+\begin{enumerate}
+
+   \item Starting with the root node, the algorithm moves down the tree recursively, in the same way that it would if the search point where being inserted (i.e. it goes right or left depending on whether the point is greater or less than the current node in the split dimension).
+   \item Once the algorithm reaches a leaf node, it saves that node point as the "current best"
+   \item The algorithm unwinds the recursion of the tree, performing the following steps at each node:
+         \begin{enumerate}
+
+		\item If the current node is closer than the current best, then it becomes the current best.
+		\item The algorithm checks whether there could be any points on the other side of the splitting plane that are closer to the search point than the current best. In concept, this is done by intersecting the splitting hyperplane with a hypersphere around the search point that has a radius equal to the current nearest distance. Since the hyperplanes are all axis-aligned this is implemented as a simple comparison to see whether the difference between the splitting coordinate of the search point and current node is less than the distance (overall coordinates) from the search point to the current best.
+                \begin{enumerate}
+			\item If the hypersphere crosses the plane, there could be nearer points on the other side of the plane, so the algorithm must move down the other branch of the tree from the current node looking for closer points, following the same recursive process as the entire search.
+              		\item If the hypersphere doesn't intersect the splitting plane, then the algorithm continues walking up the tree, and the entire branch on the other side of that node is eliminated.
+		\end{enumerate}	
+         \end{enumerate}
+   \item When the algorithm finishes this process for the root node, then the search is complete.
+\end{enumerate}
+%==========================================================================================
+%==========================================================================================
+\chapter{Other}
+\section{Killian zen ding}
+\begin{itemize}
+
+ \item  Step 0:  Create an nxm  matrix called the cost matrix in which each element represents the cost of assigning one of n workers to one of m jobs.  Rotate the matrix so that there are at least as many rows as columns and let k=min(n,m).
+
+  \item   Step 1:  For each row of the matrix, find the smallest element and subtract it from every element in its row.  Go to Step 2.
+
+    \item  Step 2:  Find a zero (Z) in the resulting matrix.  If there is no starred zero in its row or column, star Z. Repeat for each element in the matrix. Go to Step 3.
+
+ \item Step 3:  Cover each column containing a starred zero.  If K columns are covered, the starred zeros describe a complete set of unique assignments.  In this case, Go to DONE, otherwise, Go to Step 4.
+
+ \item Step 4:  Find a noncovered zero and prime it.  If there is no starred zero in the row containing this primed zero, Go to Step 5.  Otherwise, cover this row and uncover the column containing the starred zero. Continue in this manner until there are no uncovered zeros left. Save the smallest uncovered value and Go to Step 6.
+
+ \item Step 5:  Construct a series of alternating primed and starred zeros as follows.  Let Z0 represent the uncovered primed zero found in Step 4.  Let Z1 denote the starred zero in the column of Z0 (if any). Let Z2 denote the primed zero in the row of Z1 (there will always be one).  Continue until the series terminates at a primed zero that has no starred zero in its column.  Unstar each starred zero of the series, star each primed zero of the series, erase all primes and uncover every line in the matrix.  Return to Step 3.
+
+ \item Step 6:  Add the value found in Step 4 to every element of each covered row, and subtract it from every element of each uncovered column.  Return to Step 4 without altering any stars, primes, or covered lines.
+
+ \item DONE:  Assignment pairs are indicated by the positions of the starred zeros in the cost matrix.  If C(i,j) is a starred zero, then the element associated with row i is assigned to the element associated with column j.
+ 
+\end{itemize}
+
+\section{Josephus}
+Zoek de plaats in een cirkel die als laatste overblijft door iedere
+keer X te springen en 1 te schrappen.
+\begin{verbatim}
+int josephus (positions, skip):
+	d = 1
+    while d < (skip-1) * positions:
+        d = ceil(d * skip / (skip - 1));
+    return (skip * positions + 1-d);
+\end{verbatim}
+
+Of nog:
+\begin{equation}
+If n = 2m + l and 0 ≤ l ≤ 2m , then f(n) = 2l + 1.
+\end{equation}
+
+\section{Lievenstein methode}
+\chapter{Doen!}
+
+\begin{itemize}
+\item Nadenken complexiteit.
+\item Kansen: log gebruiken.
+\item Op papier coden.
+\item Printen.
+\item In frissere lucht zitten.
+\item Drinken en eten!
+\item Teken grafenprobleem uit!
+\item Maak randgevallen eigen testcases.
+\item Gebruik define voor debug output!
+\end{itemize}
+
+
+\end{document}
