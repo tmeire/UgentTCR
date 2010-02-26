@@ -17,6 +17,7 @@ using namespace std;
 #define REP(i,n) for(int i=0;i<(n);i++)
 #define FOR(i,a,b) for(int i=(a);i<(b);++i)
 #define FORD(i,a,b) for(int i=(a);i>=(b);--i)
+// FIXME: FOREACH DOESN'T WORK ON EVERY SYSTEM! Check before contest!
 #define FOREACH(it,c) for(typeof((c).begin()) it=(c).begin();it!=(c).end();++it)
 #define LET(i,c) typeof(c) i = (c)
 #define MP make_pair
@@ -35,21 +36,19 @@ typedef pair<int,int> ii;
 #define DEBUG !true
 
 //=========================================END OF HEADER=========================================================
-class Class{ //edge voor grafen
-        public:
-               bool operator <(const Class& e) const{return1;};
+
+class Class { //edge voor grafen
+	public:
+		bool operator< (const Class& e) const { return 1; };
 };
 
-void solve(){
-	
+void solve () {
 }
 
-int main(){
-        int cases;
-        scanf("%d",&cases);
-        while(cases--)
-        { 
-                solve();
-
-        }
+int main () {
+	int cases;
+	scanf ("%d",&cases);
+	while (cases--) { 
+		solve();
+	}
 }
