@@ -51,4 +51,5 @@ int main () {
 	while (cases--) { 
 		solve();
 	}
+	return 0;
 }

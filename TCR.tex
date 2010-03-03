@@ -548,7 +548,7 @@ procedure FloydWarshall ()
 
 \section{Josephus}
 Zoek de plaats in een cirkel die als laatste overblijft door iedere
-keer X te springen en 1 te schrappen.
+keer k-1 plaatsen te springen en 1 te schrappen.
 \begin{verbatim}
 int josephus (positions, skip):
 	d = 1
@@ -557,12 +557,46 @@ int josephus (positions, skip):
     return (skip * positions + 1-d);
 \end{verbatim}
 
-Of nog:
-\begin{equation}
-If n = 2m + l and 0 ≤ l ≤ 2m , then f(n) = 2l + 1.
-\end{equation}
+Of nog met een recursieve definitie:
+\begin{eqnarray*}
+J(1, k) & = & 0 \\
+J(n, k) & = & (J(n-1, k) + k) \% n \\
+\end{eqnarray*}
 
-\section{Lievenstein methode}
+\section{Levenshtein distance}
+Berekent het aantal aanpassingen die nodig zijn om een string s1 om te vormen in
+een string s2.
+
+\begin{verbatim}
+int LevenshteinDistance(char s[1..m], char t[1..n]) {
+    // d is a table with m+1 rows and n+1 columns
+    declare int d[0..m, 0..n]
+
+    for i from 0 to m
+        d[i, 0] := i // deletion
+    for j from 0 to n
+        d[0, j] := j // insertion
+
+    for j from 1 to n {
+        for i from 1 to m {
+             if s[i] = t[j] then 
+                 d[i, j] := d[i-1, j-1]
+             else
+                 d[i, j] := minimum (
+                     d[i-1, j] + 1,  // deletion
+                     d[i, j-1] + 1,  // insertion
+                     d[i-1, j-1] + 1 // substitution
+                 )
+        }
+    }
+    return d[m, n]
+}
+\end{verbatim}
+
+\section{Print opgaven}
+Maak een 2-dimensionale array van chars. Plaats de oplossing in deze array. Print
+de inhoud van deze array.
+
 \chapter{Doen!}
 
 \begin{itemize}
