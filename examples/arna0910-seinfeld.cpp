@@ -46,24 +46,6 @@ class Class { //edge voor grafen
 		bool operator< (const Class& e) const { return 1; };
 };
 
-#if 0
-// solution of Nele, doesn't work either
-int solven (string s) {
-	int sum=0, n=0;
-	REP (i, s.length()) {
-		if (s[i] == '{') {
-			sum++;
-		} else {
-			sum--;
-		}
-		if (sum < 0) {
-			sum = 1; n++;
-		}
-	}
-	return n + sum / 2;
-}
-#endif
-
 int solve (string s) {
 	int n=0, q=0;
 	REP (i, s.length()) {
